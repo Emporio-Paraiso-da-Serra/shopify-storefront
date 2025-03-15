@@ -1,35 +1,45 @@
-import {fixupConfigRules, fixupPluginRules} from '@eslint/compat';
-import eslintComments from 'eslint-plugin-eslint-comments';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import jsxA11Y from 'eslint-plugin-jsx-a11y';
-import globals from 'globals';
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import _import from 'eslint-plugin-import';
-import tsParser from '@typescript-eslint/parser';
-import jest from 'eslint-plugin-jest';
-import path from 'node:path';
-import {fileURLToPath} from 'node:url';
-import js from '@eslint/js';
-import {FlatCompat} from '@eslint/eslintrc';
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { fixupConfigRules, fixupPluginRules } from '@eslint/compat'
+import { FlatCompat } from '@eslint/eslintrc'
+import js from '@eslint/js'
+import typescriptEslint from '@typescript-eslint/eslint-plugin'
+import tsParser from '@typescript-eslint/parser'
+import eslintConfigPrettier from 'eslint-config-prettier'
+import eslintComments from 'eslint-plugin-eslint-comments'
+import _import from 'eslint-plugin-import'
+import jest from 'eslint-plugin-jest'
+import jsxA11Y from 'eslint-plugin-jsx-a11y'
+import eslintPluginPrettier from 'eslint-plugin-prettier'
+import react from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import globals from 'globals'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const compat = new FlatCompat({
   baseDirectory: __dirname,
   recommendedConfig: js.configs.recommended,
   allConfig: js.configs.all,
-});
+})
 
 export default [
+  eslintConfigPrettier,
   {
-    ignores: [
-      '**/node_modules/',
-      '**/build/',
-      '**/*.graphql.d.ts',
-      '**/*.graphql.ts',
-      '**/*.generated.d.ts',
-    ],
+    plugins: {
+      prettier: eslintPluginPrettier,
+      'simple-import-sort': simpleImportSort,
+    },
+    rules: {
+      'prettier/prettier': 'error',
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+    },
+  },
+  {
+    ignores: ['**/node_modules/', '**/build/', '**/*.graphql.d.ts', '**/*.graphql.ts', '**/*.generated.d.ts'],
   },
   ...fixupConfigRules(
     compat.extends(
@@ -61,27 +71,14 @@ export default [
       },
     },
     settings: {
-      react: {
-        version: 'detect',
-      },
+      react: { version: 'detect' },
     },
     rules: {
       'eslint-comments/no-unused-disable': 'error',
-      'no-console': [
-        'warn',
-        {
-          allow: ['warn', 'error'],
-        },
-      ],
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-use-before-define': 'off',
       'no-warning-comments': 'off',
-      'object-shorthand': [
-        'error',
-        'always',
-        {
-          avoidQuotes: true,
-        },
-      ],
+      'object-shorthand': ['error', 'always', { avoidQuotes: true }],
       'no-useless-escape': 'off',
       'no-case-declarations': 'off',
     },
@@ -93,7 +90,7 @@ export default [
       'plugin:react-hooks/recommended',
       'plugin:jsx-a11y/recommended',
     ),
-  ).map((config) => ({
+  ).map(config => ({
     ...config,
     files: ['**/*.{js,jsx,ts,tsx}'],
   })),
@@ -132,12 +129,8 @@ export default [
     },
   },
   ...fixupConfigRules(
-    compat.extends(
-      'plugin:@typescript-eslint/recommended',
-      'plugin:import/recommended',
-      'plugin:import/typescript',
-    ),
-  ).map((config) => ({
+    compat.extends('plugin:@typescript-eslint/recommended', 'plugin:import/recommended', 'plugin:import/typescript'),
+  ).map(config => ({
     ...config,
     files: ['**/*.{ts,tsx}'],
   })),
@@ -175,6 +168,7 @@ export default [
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/naming-convention': 'off',
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+      'import/no-unresolved': ['error', { ignore: ['^virtual:'] }],
     },
   },
   {
@@ -185,7 +179,7 @@ export default [
       },
     },
   },
-  ...compat.extends('plugin:jest/recommended').map((config) => ({
+  ...compat.extends('plugin:jest/recommended').map(config => ({
     ...config,
     files: ['**/*.test.*'],
   })),
@@ -208,11 +202,8 @@ export default [
     },
   },
   ...fixupConfigRules(
-    compat.extends(
-      'plugin:@typescript-eslint/eslint-recommended',
-      'plugin:@typescript-eslint/recommended',
-    ),
-  ).map((config) => ({
+    compat.extends('plugin:@typescript-eslint/eslint-recommended', 'plugin:@typescript-eslint/recommended'),
+  ).map(config => ({
     ...config,
     files: ['**/*.ts', '**/*.tsx'],
   })),
@@ -258,4 +249,4 @@ export default [
       'react/prop-types': 'off',
     },
   },
-];
+]
