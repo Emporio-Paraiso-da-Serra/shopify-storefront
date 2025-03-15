@@ -8,7 +8,7 @@ const config = {
   endOfLine: 'auto',
   jsxSingleQuote: true,
   plugins: ['prettier-plugin-tailwindcss'],
-  printWidth: 120,
+  printWidth: 80,
   semi: false,
   singleAttributePerLine: false,
   singleQuote: true,

@@ -1,46 +1,40 @@
-import {redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {useLoaderData, type MetaFunction} from '@remix-run/react';
-import {Money, Image, flattenConnection} from '@shopify/hydrogen';
-import type {OrderLineItemFullFragment} from 'customer-accountapi.generated';
-import {CUSTOMER_ORDER_QUERY} from '~/graphql/customer-account/CustomerOrderQuery';
+import { type MetaFunction, useLoaderData } from '@remix-run/react'
+import { flattenConnection, Image, Money } from '@shopify/hydrogen'
+import { type LoaderFunctionArgs, redirect } from '@shopify/remix-oxygen'
+import type { OrderLineItemFullFragment } from 'customer-accountapi.generated'
 
-export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Order ${data?.order?.name}`}];
-};
+import { CUSTOMER_ORDER_QUERY } from '~/graphql/customer-account/CustomerOrderQuery'
 
-export async function loader({params, context}: LoaderFunctionArgs) {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [{ title: `Order ${data?.order?.name}` }]
+}
+
+export async function loader({ params, context }: LoaderFunctionArgs) {
   if (!params.id) {
-    return redirect('/account/orders');
+    return redirect('/account/orders')
   }
 
-  const orderId = atob(params.id);
-  const {data, errors} = await context.customerAccount.query(
-    CUSTOMER_ORDER_QUERY,
-    {
-      variables: {orderId},
-    },
-  );
+  const orderId = atob(params.id)
+  const { data, errors } = await context.customerAccount.query(CUSTOMER_ORDER_QUERY, {
+    variables: { orderId },
+  })
 
   if (errors?.length || !data?.order) {
-    throw new Error('Order not found');
+    throw new Error('Order not found')
   }
 
-  const {order} = data;
+  const { order } = data
 
-  const lineItems = flattenConnection(order.lineItems);
-  const discountApplications = flattenConnection(order.discountApplications);
+  const lineItems = flattenConnection(order.lineItems)
+  const discountApplications = flattenConnection(order.discountApplications)
 
-  const fulfillmentStatus =
-    flattenConnection(order.fulfillments)[0]?.status ?? 'N/A';
+  const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status ?? 'N/A'
 
-  const firstDiscount = discountApplications[0]?.value;
+  const firstDiscount = discountApplications[0]?.value
 
-  const discountValue =
-    firstDiscount?.__typename === 'MoneyV2' && firstDiscount;
+  const discountValue = firstDiscount?.__typename === 'MoneyV2' && firstDiscount
 
-  const discountPercentage =
-    firstDiscount?.__typename === 'PricingPercentageValue' &&
-    firstDiscount?.percentage;
+  const discountPercentage = firstDiscount?.__typename === 'PricingPercentageValue' && firstDiscount?.percentage
 
   return {
     order,
@@ -48,19 +42,13 @@ export async function loader({params, context}: LoaderFunctionArgs) {
     discountValue,
     discountPercentage,
     fulfillmentStatus,
-  };
+  }
 }
 
 export default function OrderRoute() {
-  const {
-    order,
-    lineItems,
-    discountValue,
-    discountPercentage,
-    fulfillmentStatus,
-  } = useLoaderData<typeof loader>();
+  const { order, lineItems, discountValue, discountPercentage, fulfillmentStatus } = useLoaderData<typeof loader>()
   return (
-    <div className="account-order">
+    <div className='account-order'>
       <h2>Order {order.name}</h2>
       <p>Placed on {new Date(order.processedAt!).toDateString()}</p>
       <br />
@@ -68,10 +56,10 @@ export default function OrderRoute() {
         <table>
           <thead>
             <tr>
-              <th scope="col">Product</th>
-              <th scope="col">Price</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Total</th>
+              <th scope='col'>Product</th>
+              <th scope='col'>Price</th>
+              <th scope='col'>Quantity</th>
+              <th scope='col'>Total</th>
             </tr>
           </thead>
           <tbody>
@@ -81,13 +69,12 @@ export default function OrderRoute() {
             ))}
           </tbody>
           <tfoot>
-            {((discountValue && discountValue.amount) ||
-              discountPercentage) && (
+            {((discountValue && discountValue.amount) || discountPercentage) && (
               <tr>
-                <th scope="row" colSpan={3}>
+                <th scope='row' colSpan={3}>
                   <p>Discounts</p>
                 </th>
-                <th scope="row">
+                <th scope='row'>
                   <p>Discounts</p>
                 </th>
                 <td>
@@ -100,10 +87,10 @@ export default function OrderRoute() {
               </tr>
             )}
             <tr>
-              <th scope="row" colSpan={3}>
+              <th scope='row' colSpan={3}>
                 <p>Subtotal</p>
               </th>
-              <th scope="row">
+              <th scope='row'>
                 <p>Subtotal</p>
               </th>
               <td>
@@ -111,10 +98,10 @@ export default function OrderRoute() {
               </td>
             </tr>
             <tr>
-              <th scope="row" colSpan={3}>
+              <th scope='row' colSpan={3}>
                 Tax
               </th>
-              <th scope="row">
+              <th scope='row'>
                 <p>Tax</p>
               </th>
               <td>
@@ -122,10 +109,10 @@ export default function OrderRoute() {
               </td>
             </tr>
             <tr>
-              <th scope="row" colSpan={3}>
+              <th scope='row' colSpan={3}>
                 Total
               </th>
-              <th scope="row">
+              <th scope='row'>
                 <p>Total</p>
               </th>
               <td>
@@ -139,16 +126,8 @@ export default function OrderRoute() {
           {order?.shippingAddress ? (
             <address>
               <p>{order.shippingAddress.name}</p>
-              {order.shippingAddress.formatted ? (
-                <p>{order.shippingAddress.formatted}</p>
-              ) : (
-                ''
-              )}
-              {order.shippingAddress.formattedArea ? (
-                <p>{order.shippingAddress.formattedArea}</p>
-              ) : (
-                ''
-              )}
+              {order.shippingAddress.formatted ? <p>{order.shippingAddress.formatted}</p> : ''}
+              {order.shippingAddress.formattedArea ? <p>{order.shippingAddress.formattedArea}</p> : ''}
             </address>
           ) : (
             <p>No shipping address defined</p>
@@ -161,15 +140,15 @@ export default function OrderRoute() {
       </div>
       <br />
       <p>
-        <a target="_blank" href={order.statusPageUrl} rel="noreferrer">
+        <a target='_blank' href={order.statusPageUrl} rel='noreferrer'>
           View Order Status →
         </a>
       </p>
     </div>
-  );
+  )
 }
 
-function OrderLineRow({lineItem}: {lineItem: OrderLineItemFullFragment}) {
+function OrderLineRow({ lineItem }: { lineItem: OrderLineItemFullFragment }) {
   return (
     <tr key={lineItem.id}>
       <td>
@@ -193,5 +172,5 @@ function OrderLineRow({lineItem}: {lineItem: OrderLineItemFullFragment}) {
         <Money data={lineItem.totalDiscount!} />
       </td>
     </tr>
-  );
+  )
 }

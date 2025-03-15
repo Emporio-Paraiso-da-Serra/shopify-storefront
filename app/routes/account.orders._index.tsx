@@ -1,64 +1,51 @@
-import {Link, useLoaderData, type MetaFunction} from '@remix-run/react';
-import {
-  Money,
-  getPaginationVariables,
-  flattenConnection,
-} from '@shopify/hydrogen';
-import {type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {CUSTOMER_ORDERS_QUERY} from '~/graphql/customer-account/CustomerOrdersQuery';
-import type {
-  CustomerOrdersFragment,
-  OrderItemFragment,
-} from 'customer-accountapi.generated';
-import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import { Link, type MetaFunction, useLoaderData } from '@remix-run/react'
+import { flattenConnection, getPaginationVariables, Money } from '@shopify/hydrogen'
+import { type LoaderFunctionArgs } from '@shopify/remix-oxygen'
+import type { CustomerOrdersFragment, OrderItemFragment } from 'customer-accountapi.generated'
+
+import { PaginatedResourceSection } from '~/components/PaginatedResourceSection'
+import { CUSTOMER_ORDERS_QUERY } from '~/graphql/customer-account/CustomerOrdersQuery'
 
 export const meta: MetaFunction = () => {
-  return [{title: 'Orders'}];
-};
+  return [{ title: 'Orders' }]
+}
 
-export async function loader({request, context}: LoaderFunctionArgs) {
+export async function loader({ request, context }: LoaderFunctionArgs) {
   const paginationVariables = getPaginationVariables(request, {
     pageBy: 20,
-  });
+  })
 
-  const {data, errors} = await context.customerAccount.query(
-    CUSTOMER_ORDERS_QUERY,
-    {
-      variables: {
-        ...paginationVariables,
-      },
+  const { data, errors } = await context.customerAccount.query(CUSTOMER_ORDERS_QUERY, {
+    variables: {
+      ...paginationVariables,
     },
-  );
+  })
 
   if (errors?.length || !data?.customer) {
-    throw Error('Customer orders not found');
+    throw Error('Customer orders not found')
   }
 
-  return {customer: data.customer};
+  return { customer: data.customer }
 }
 
 export default function Orders() {
-  const {customer} = useLoaderData<{customer: CustomerOrdersFragment}>();
-  const {orders} = customer;
-  return (
-    <div className="orders">
-      {orders.nodes.length ? <OrdersTable orders={orders} /> : <EmptyOrders />}
-    </div>
-  );
+  const { customer } = useLoaderData<{ customer: CustomerOrdersFragment }>()
+  const { orders } = customer
+  return <div className='orders'>{orders.nodes.length ? <OrdersTable orders={orders} /> : <EmptyOrders />}</div>
 }
 
-function OrdersTable({orders}: Pick<CustomerOrdersFragment, 'orders'>) {
+function OrdersTable({ orders }: Pick<CustomerOrdersFragment, 'orders'>) {
   return (
-    <div className="acccount-orders">
+    <div className='acccount-orders'>
       {orders?.nodes.length ? (
         <PaginatedResourceSection connection={orders}>
-          {({node: order}) => <OrderItem key={order.id} order={order} />}
+          {({ node: order }) => <OrderItem key={order.id} order={order} />}
         </PaginatedResourceSection>
       ) : (
         <EmptyOrders />
       )}
     </div>
-  );
+  )
 }
 
 function EmptyOrders() {
@@ -67,14 +54,14 @@ function EmptyOrders() {
       <p>You haven&apos;t placed any orders yet.</p>
       <br />
       <p>
-        <Link to="/collections">Start Shopping →</Link>
+        <Link to='/collections'>Start Shopping →</Link>
       </p>
     </div>
-  );
+  )
 }
 
-function OrderItem({order}: {order: OrderItemFragment}) {
-  const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status;
+function OrderItem({ order }: { order: OrderItemFragment }) {
+  const fulfillmentStatus = flattenConnection(order.fulfillments)[0]?.status
   return (
     <>
       <fieldset>
@@ -89,5 +76,5 @@ function OrderItem({order}: {order: OrderItemFragment}) {
       </fieldset>
       <br />
     </>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import type {IGraphQLConfig} from 'graphql-config';
-import {getSchema} from '@shopify/hydrogen-codegen';
+import { getSchema } from '@shopify/hydrogen-codegen'
+import type { IGraphQLConfig } from 'graphql-config'
 
 /**
  * GraphQL Config
@@ -10,11 +10,7 @@ export default {
   projects: {
     default: {
       schema: getSchema('storefront'),
-      documents: [
-        './*.{ts,tsx,js,jsx}',
-        './app/**/*.{ts,tsx,js,jsx}',
-        '!./app/graphql/**/*.{ts,tsx,js,jsx}',
-      ],
+      documents: ['./*.{ts,tsx,js,jsx}', './app/**/*.{ts,tsx,js,jsx}', '!./app/graphql/**/*.{ts,tsx,js,jsx}'],
     },
 
     customer: {
@@ -24,4 +20,4 @@ export default {
 
     // Add your own GraphQL projects here for CMS, Shopify Admin API, etc.
   },
-} as IGraphQLConfig;
+} as IGraphQLConfig
