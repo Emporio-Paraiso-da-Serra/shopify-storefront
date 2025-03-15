@@ -31,6 +31,9 @@ export default defineConfig({
     // withtout inlining assets as base64:
     assetsInlineLimit: 0,
   },
+  css: {
+    postcss: './postcss.config.mjs',
+  },
   ssr: {
     optimizeDeps: {
       /**
