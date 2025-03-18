@@ -1,3 +1,6 @@
+import '@fontsource-variable/inter'
+import '@fontsource/atkinson-hyperlegible-next'
+
 import {
   isRouteErrorResponse,
   Links,
@@ -24,7 +27,11 @@ export type RootLoader = typeof loader
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  */
-export const shouldRevalidate: ShouldRevalidateFunction = ({ formMethod, currentUrl, nextUrl }) => {
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  formMethod,
+  currentUrl,
+  nextUrl,
+}) => {
   // revalidate when a mutation is performed e.g add to cart, login...
   if (formMethod && formMethod !== 'GET') return true
 
@@ -51,14 +58,8 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({ formMethod, current
  */
 export function links() {
   return [
-    {
-      rel: 'preconnect',
-      href: 'https://cdn.shopify.com',
-    },
-    {
-      rel: 'preconnect',
-      href: 'https://shop.app',
-    },
+    { rel: 'preconnect', href: 'https://cdn.shopify.com' },
+    { rel: 'preconnect', href: 'https://shop.app' },
     { rel: 'icon', type: 'image/svg+xml', href: favicon },
   ]
 }
@@ -144,19 +145,26 @@ export function Layout({ children }: { children?: React.ReactNode }) {
   const data = useRouteLoaderData<RootLoader>('root')
 
   return (
-    <html lang='en'>
+    <html lang='pt-BR'>
       <head>
+        <Links />
+
         <meta charSet='utf-8' />
         <meta name='viewport' content='width=device-width,initial-scale=1' />
         <link rel='stylesheet' href={resetStyles}></link>
         <link rel='stylesheet' href={appStyles}></link>
         <link rel='stylesheet' href={tailwindStyles}></link>
+
         <Meta />
-        <Links />
       </head>
-      <body>
+
+      <body className='antialiased'>
         {data ? (
-          <Analytics.Provider cart={data.cart} shop={data.shop} consent={data.consent}>
+          <Analytics.Provider
+            cart={data.cart}
+            shop={data.shop}
+            consent={data.consent}
+          >
             <PageLayout {...data}>{children}</PageLayout>
           </Analytics.Provider>
         ) : (
