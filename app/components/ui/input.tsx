@@ -18,9 +18,9 @@ const inputVariants = cva(
         error: 'border-error text-error placeholder:text-error-light',
       },
     },
-    defaultVariants: { variant: 'default' },
   },
-)
+  defaultVariants: { variant: 'default' },
+})
 
 const iconColors = {
   default: 'text-foreground-light',
@@ -28,7 +28,7 @@ const iconColors = {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ type = 'test', variant, className, icon, ...props }, ref) => {
+  ({ type = 'text', variant, className, icon, ...props }, ref) => {
     const Icon = icon
 
     if (Icon) {
