@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import type { LucideIcon } from 'lucide-react'
-import { forwardRef, InputHTMLAttributes } from 'react'
+import { forwardRef, type InputHTMLAttributes } from 'react'
 
 import { cn } from '~/utils'
 
@@ -23,7 +23,7 @@ const inputVariants = cva(
 )
 
 const iconColors = {
-  default: 'text-foreground-light',
+  default: 'text-secondary',
   error: 'text-error',
 }
 
@@ -38,6 +38,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <Icon
             strokeWidth={1.5}
             className={cn('pointer-events-none absolute left-2', iconColors[variant ?? 'default'])}
+            data-testid='input-icon'
           />
         </div>
       )
