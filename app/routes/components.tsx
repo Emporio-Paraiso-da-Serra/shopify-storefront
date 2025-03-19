@@ -1,6 +1,6 @@
 import { Info } from 'lucide-react'
 
-import { Input } from '~/components/ui'
+import { Input, Label } from '~/components/ui'
 
 export default function Components() {
   return (
@@ -9,11 +9,13 @@ export default function Components() {
       <div className='space-y-2'>
         <Input placeholder='Placeholder for text input' />
         <Input icon={Info} defaultValue='Sample value with icon' />
-        <Input
-          variant='error'
-          icon={Info}
-          placeholder='Placeholder for text input'
-        />
+        <Input variant='error' icon={Info} placeholder='Placeholder for text input' />
+      </div>
+
+      <div className='font-display'>Input with Label</div>
+      <div className='space-y-1'>
+        <Label htmlFor='inputWithLabel'>Label</Label>
+        <Input id='inputWithLabel' placeholder='Placeholder for text input' />
       </div>
     </div>
   )

@@ -18,9 +18,9 @@ const inputVariants = cva(
         error: 'border-error text-error placeholder:text-error-light',
       },
     },
+    defaultVariants: { variant: 'default' },
   },
-  defaultVariants: { variant: 'default' },
-})
+)
 
 const iconColors = {
   default: 'text-foreground-light',
