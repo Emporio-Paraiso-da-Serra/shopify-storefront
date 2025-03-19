@@ -8,17 +8,11 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ['Inter Variable', ...defaultTheme.fontFamily.sans],
-        display: [
-          'Atkinson Hyperlegible Next',
-          ...defaultTheme.fontFamily.sans,
-        ],
+        display: ['Atkinson Hyperlegible Next', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         background: 'hsl(var(--background))',
-        foreground: {
-          DEFAULT: 'hsl(var(--foreground))',
-          light: 'hsl(var(--foreground-light))',
-        },
+        foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',

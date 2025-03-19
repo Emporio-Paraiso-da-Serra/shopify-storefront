@@ -6,20 +6,28 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 15%;
-    --foreground-light: 0 0% 45%;
     --primary: 150 50% 30%;
     --primary-foreground: 0 0% 96%;
     --secondary: 150 30% 60%;
-    --secondary-foreground: 150 50% 30%;
-    --muted: 0 0% 83%;
-    --muted-foreground: 0 0% 64%;
-    --accent: 0 0% 90%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 0 0% 96%;
     --accent-foreground: 0 0% 4%;
     --error: 0 72% 51%;
     --error-light: 0 91% 71%;
     --error-foreground: 0 0% 96%;
     --border: 0 0% 90%;
     --ring: 150 50% 30%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
