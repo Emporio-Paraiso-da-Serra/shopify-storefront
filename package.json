@@ -34,6 +34,7 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@graphql-codegen/cli": "5.0.2",
+    "@radix-ui/react-slot": "1.1.2",
     "@remix-run/dev": "^2.15.3",
     "@shopify/cli": "~3.75.3",
     "@shopify/hydrogen-codegen": "^0.3.2",
