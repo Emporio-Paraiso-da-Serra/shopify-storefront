@@ -1,8 +1,12 @@
+# Folders
 node_modules
 /.cache
 /build
 /dist
 /public/build
-/.mf
-.env
 .shopify
+/.mf
+
+# Files
+.env
+.DS_Store
