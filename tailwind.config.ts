@@ -6,6 +6,10 @@ const config: Config = {
   safelist: ['focus'],
   theme: {
     extend: {
+      container: {
+        center: true,
+        padding: '2rem',
+      },
       fontFamily: {
         sans: ['Inter Variable', ...defaultTheme.fontFamily.sans],
         display: ['Atkinson Hyperlegible Next', ...defaultTheme.fontFamily.sans],
