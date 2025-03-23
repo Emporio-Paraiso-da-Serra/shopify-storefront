@@ -1,25 +1,30 @@
+import { headerMenuItemAdapter } from '~/adapters/header.menu.item.adapter'
 import { For } from '~/components/utils/for'
-import { Show } from '~/components/utils/show'
-import type { MenuItemWithSubItems } from '~/types/header'
+import type { HeaderMenuType } from '~/types/header'
 
 import { HeaderMenuItem } from './header.menu.item'
 
 interface HeaderMenuProps {
-  items?: MenuItemWithSubItems[]
+  menu: HeaderMenuType
 }
 
-export function HeaderMenu({ items }: Readonly<HeaderMenuProps>) {
-  const hasItems = items && items.length > 0
+export function HeaderMenu({ menu }: Readonly<HeaderMenuProps>) {
+  const sourceItems = menu?.items
+  const hasItems = sourceItems && sourceItems.length > 0
+
+  if (!hasItems) {
+    return null
+  }
+
+  const menuItems = sourceItems.map(headerMenuItemAdapter)
 
   return (
-    <Show when={hasItems}>
-      <div className='bg-primary'>
-        <nav className='container flex gap-4'>
-          <For list={items} keyExtractor={item => item.title}>
-            {item => <HeaderMenuItem {...item} />}
-          </For>
-        </nav>
-      </div>
-    </Show>
+    <div className='bg-primary' data-testid='header-menu'>
+      <nav className='container flex gap-4'>
+        <For list={menuItems} keyExtractor={item => item.title}>
+          {item => <HeaderMenuItem {...item} />}
+        </For>
+      </nav>
+    </div>
   )
 }

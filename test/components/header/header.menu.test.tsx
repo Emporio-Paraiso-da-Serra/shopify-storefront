@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
+import type { HeaderQuery } from 'storefrontapi.generated'
 
 import { HeaderMenu } from '~/components/header/header.menu'
-import type { MenuItemWithSubItems } from '~/types/header'
 
 vi.mock('@remix-run/react', () => ({
   NavLink: ({ to, children, ...props }: { to: string; children: React.ReactNode }) => (
@@ -12,38 +12,54 @@ vi.mock('@remix-run/react', () => ({
 }))
 
 describe('HeaderMenu', () => {
-  const menuItemId = 'menu-item'
+  const menuId = 'header-menu'
+  const menuItemId = 'header-menu-item'
 
-  const mockItems: MenuItemWithSubItems[] = [
-    {
-      title: 'Living Room',
-      to: '/living-room',
-      items: [
-        { title: 'Sofas', to: '/sofas' },
-        { title: 'Tables', to: '/tables' },
-      ],
-    },
-    { title: 'Bedroom', to: '/bedroom', items: [] },
-  ]
+  const mockMenu: HeaderQuery['menu'] = {
+    id: 'mock-menu',
+    items: [
+      {
+        id: 'item',
+        title: 'Item title',
+        url: 'http://store.com/item',
+        items: [
+          {
+            id: 'sub-item',
+            title: 'Sub item title',
+            url: 'http://store.com/item/sub-item',
+          },
+        ],
+      },
+    ],
+  }
+
+  const mockMenuWithoutItems: HeaderQuery['menu'] = {
+    id: 'mock-menu',
+    items: [],
+  }
 
   it('should render menu items when provided', () => {
-    render(<HeaderMenu items={mockItems} />)
+    render(<HeaderMenu menu={mockMenu} />)
+
+    const menu = screen.queryByTestId(menuId)
+    expect(menu).toBeInTheDocument()
 
     const menuItems = screen.getAllByTestId(menuItemId)
-    expect(menuItems.length).toBe(mockItems.length)
+    expect(menuItems.length).toBe(mockMenu.items.length)
+    expect(menuItems[0]).toHaveTextContent(mockMenu.items[0].title)
   })
 
   it('should not render when items are empty', () => {
-    render(<HeaderMenu items={[]} />)
+    render(<HeaderMenu menu={mockMenuWithoutItems} />)
 
-    const menuItems = screen.queryByTestId(menuItemId)
-    expect(menuItems).not.toBeInTheDocument()
+    const menu = screen.queryByTestId(menuId)
+    expect(menu).not.toBeInTheDocument()
   })
 
-  it('should not render when items are undefined', () => {
-    render(<HeaderMenu items={undefined} />)
+  it('should not render when menu is undefined', () => {
+    render(<HeaderMenu menu={undefined} />)
 
-    const menuItems = screen.queryByTestId(menuItemId)
-    expect(menuItems).not.toBeInTheDocument()
+    const menu = screen.queryByTestId(menuId)
+    expect(menu).not.toBeInTheDocument()
   })
 })

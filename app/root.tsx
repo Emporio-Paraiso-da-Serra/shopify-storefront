@@ -16,8 +16,9 @@ import { Analytics, getShopAnalytics, useNonce } from '@shopify/hydrogen'
 import { type LoaderFunctionArgs } from '@shopify/remix-oxygen'
 
 import favicon from '~/assets/favicon.svg'
-import { PageLayout } from '~/components/PageLayout'
-import { FOOTER_QUERY, HEADER_QUERY } from '~/lib/fragments'
+import { PageLayout } from '~/components/layout/page.layout'
+import { HEADER_QUERY } from '~/graphql/header.query'
+import { FOOTER_QUERY } from '~/lib/fragments'
 import appStyles from '~/styles/app.css?url'
 import resetStyles from '~/styles/reset.css?url'
 import tailwindStyles from '~/styles/tailwind.css?url'
@@ -27,11 +28,7 @@ export type RootLoader = typeof loader
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  */
-export const shouldRevalidate: ShouldRevalidateFunction = ({
-  formMethod,
-  currentUrl,
-  nextUrl,
-}) => {
+export const shouldRevalidate: ShouldRevalidateFunction = ({ formMethod, currentUrl, nextUrl }) => {
   // revalidate when a mutation is performed e.g add to cart, login...
   if (formMethod && formMethod !== 'GET') return true
 
@@ -65,10 +62,8 @@ export function links() {
 }
 
 export async function loader(args: LoaderFunctionArgs) {
-  // Start fetching non-critical data without blocking time to first byte
   const deferredData = loadDeferredData(args)
 
-  // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args)
 
   const { storefront, env } = args.context
@@ -102,11 +97,8 @@ async function loadCriticalData({ context }: LoaderFunctionArgs) {
   const [header] = await Promise.all([
     storefront.query(HEADER_QUERY, {
       cache: storefront.CacheLong(),
-      variables: {
-        headerMenuHandle: 'main-menu', // Adjust to your header menu handle
-      },
+      variables: { headerMenuHandle: 'main-menu' },
     }),
-    // Add other queries here, so that they are loaded in parallel
   ])
 
   return { header }
@@ -160,11 +152,7 @@ export function Layout({ children }: { children?: React.ReactNode }) {
 
       <body className='antialiased'>
         {data ? (
-          <Analytics.Provider
-            cart={data.cart}
-            shop={data.shop}
-            consent={data.consent}
-          >
+          <Analytics.Provider cart={data.cart} shop={data.shop} consent={data.consent}>
             <PageLayout {...data}>{children}</PageLayout>
           </Analytics.Provider>
         ) : (

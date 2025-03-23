@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 
 import { HeaderMenuItem } from '~/components/header/header.menu.item'
-import type { MenuItemWithSubItems } from '~/types/header'
+import type { HeaderMenuItemType } from '~/types/header'
 
 vi.mock('@remix-run/react', () => ({
   NavLink: ({ to, children, ...props }: { to: string; children: React.ReactNode }) => (
@@ -12,30 +12,33 @@ vi.mock('@remix-run/react', () => ({
 }))
 
 describe('HeaderMenuItem', () => {
-  const dropdownIconId = 'menu-item-dropdown-icon'
-  const subItemsId = 'menu-sub-item'
+  const menuItemId = 'header-menu-item'
+  const dropdownIconId = 'header-menu-dropdown-icon'
+  const subItemsId = 'header-menu-sub-item'
 
-  const mockItemWithSubItems: MenuItemWithSubItems = {
-    title: 'Living Room',
-    to: '/living-room',
-    items: [
-      { title: 'Sofas', to: '/sofas' },
-      { title: 'Tables', to: '/tables' },
-    ],
+  const mockItemWithoutSubItems: HeaderMenuItemType = {
+    id: 'bedroom',
+    title: 'Bedroom',
+    path: '/bedroom',
+    items: [],
   }
 
-  const mockItemWithoutSubItems: MenuItemWithSubItems = {
-    title: 'Bedroom',
-    to: '/bedroom',
-    items: [],
+  const mockItemWithSubItems: HeaderMenuItemType = {
+    id: 'living-room',
+    title: 'Living Room',
+    path: '/living-room',
+    items: [
+      { id: 'sofas', title: 'Sofas', path: '/sofas' },
+      { id: 'tables', title: 'Tables', path: '/tables' },
+    ],
   }
 
   it('should render the menu item title and link', () => {
     render(<HeaderMenuItem {...mockItemWithoutSubItems} />)
 
-    const linkElement = screen.getByRole('link', { name: mockItemWithoutSubItems.title })
-    expect(linkElement).toBeInTheDocument()
-    expect(linkElement).toHaveAttribute('href', mockItemWithoutSubItems.to)
+    const itemElement = screen.getByTestId(menuItemId)
+    expect(itemElement).toHaveTextContent(mockItemWithoutSubItems.title)
+    expect(itemElement).toHaveAttribute('href', mockItemWithoutSubItems.path)
   })
 
   it('should render a dropdown icon when the item has sub-items', () => {
