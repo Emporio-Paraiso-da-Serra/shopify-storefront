@@ -1,14 +1,17 @@
 import type { NavLinkProps } from '@remix-run/react'
 import type { HeaderQuery } from 'storefrontapi.generated'
 
-export type HeaderMenuType = HeaderQuery['menu']
+type HeaderType = HeaderQuery
 
-type BaseHeaderMenuItemType = {
+export type HeaderMenuType = HeaderType['menu']
+
+export type HeaderMenuItemType = {
   id: string
   title: string
   path: NavLinkProps['to']
+  items: Pick<HeaderMenuItemType, 'id' | 'title' | 'path'>[]
 }
 
-export type HeaderMenuItemType = BaseHeaderMenuItemType & {
-  items: BaseHeaderMenuItemType[]
+export interface HeaderProps {
+  header: HeaderType
 }

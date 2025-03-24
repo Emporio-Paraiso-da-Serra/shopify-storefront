@@ -1,8 +1,7 @@
-import type { HeaderQuery } from 'storefrontapi.generated'
-
 import { STORE_BASE_URL } from '~/constants/store'
+import type { HeaderType } from '~/types/header'
 
-export const MOCK_HEADER_QUERY: HeaderQuery = {
+export const MOCK_HEADER: HeaderType = {
   shop: {
     id: 'gid://shopify/Shop/1',
     name: 'Store',
