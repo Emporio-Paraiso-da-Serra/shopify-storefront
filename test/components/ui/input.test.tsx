@@ -35,7 +35,7 @@ describe('Input', () => {
     const inputElement = screen.getByPlaceholderText(placeholderText)
     const iconElement = screen.getByTestId('input-icon')
 
-    expect(inputElement).toHaveClass('pl-8')
+    expect(inputElement).toHaveClass('pl-9')
 
     expect(iconElement).toBeInTheDocument()
     expect(iconElement).toHaveClass('text-secondary')
@@ -62,7 +62,7 @@ describe('Input', () => {
 
     const inputElement = screen.getByPlaceholderText(placeholderText)
 
-    expect(inputElement).not.toHaveClass('pl-8')
+    expect(inputElement).not.toHaveClass('pl-9')
 
     const iconElement = screen.queryByRole('img', { hidden: true })
     expect(iconElement).not.toBeInTheDocument()

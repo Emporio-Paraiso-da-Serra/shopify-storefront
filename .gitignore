@@ -1,4 +1,5 @@
 # Folders
+.trash
 node_modules
 /.cache
 /build

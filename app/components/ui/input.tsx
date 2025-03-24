@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     if (Icon) {
       return (
         <div className='focus relative flex w-full items-center [&>svg]:size-5'>
-          <input ref={ref} type={type} className={cn(inputVariants({ variant, className }), 'pl-8')} {...props} />
+          <input ref={ref} type={type} className={cn(inputVariants({ variant, className }), 'pl-9')} {...props} />
           <Icon
             strokeWidth={1.5}
             className={cn('pointer-events-none absolute left-2', iconColors[variant ?? 'default'])}
