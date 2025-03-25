@@ -3,14 +3,6 @@ import { render, screen } from '@testing-library/react'
 import { HeaderMenuItem } from '~/components/header/header.menu.item'
 import type { HeaderMenuItemType } from '~/types/header'
 
-vi.mock('@remix-run/react', () => ({
-  NavLink: ({ to, children, ...props }: { to: string; children: React.ReactNode }) => (
-    <a href={to} {...props}>
-      {children}
-    </a>
-  ),
-}))
-
 describe('HeaderMenuItem', () => {
   const menuItemId = 'header-menu-item'
   const dropdownIconId = 'header-menu-dropdown-icon'

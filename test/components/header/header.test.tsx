@@ -1,13 +1,8 @@
 import { render, screen } from '@testing-library/react'
-import { mockNavLink } from 'test/mocks.functions'
 
 import { Header } from '~/components/header'
 import { STORE_BASE_URL } from '~/constants/store'
 import type { HeaderType } from '~/types/header'
-
-beforeAll(() => {
-  mockNavLink()
-})
 
 describe('Header', () => {
   const headerId = 'header'

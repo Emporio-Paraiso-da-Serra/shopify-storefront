@@ -3,14 +3,6 @@ import type { HeaderQuery } from 'storefrontapi.generated'
 
 import { HeaderMenu } from '~/components/header/header.menu'
 
-vi.mock('@remix-run/react', () => ({
-  NavLink: ({ to, children, ...props }: { to: string; children: React.ReactNode }) => (
-    <a href={to} {...props}>
-      {children}
-    </a>
-  ),
-}))
-
 describe('HeaderMenu', () => {
   const menuId = 'header-menu'
   const menuItemId = 'header-menu-item'
