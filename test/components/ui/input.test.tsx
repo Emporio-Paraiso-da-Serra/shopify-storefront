@@ -13,7 +13,7 @@ describe('Input', () => {
     expect(inputElement).toHaveClass('border-border')
     expect(inputElement).toHaveClass('text-foreground')
     expect(inputElement).toHaveClass('placeholder:text-muted-foreground')
-    expect(inputElement).toHaveClass('h-9')
+    expect(inputElement).toHaveClass('h-10')
     expect(inputElement).toHaveClass('w-full')
   })
 
@@ -35,7 +35,7 @@ describe('Input', () => {
     const inputElement = screen.getByPlaceholderText(placeholderText)
     const iconElement = screen.getByTestId('input-icon')
 
-    expect(inputElement).toHaveClass('pl-9')
+    expect(inputElement).toHaveClass('pl-10')
 
     expect(iconElement).toBeInTheDocument()
     expect(iconElement).toHaveClass('text-secondary')
@@ -62,7 +62,7 @@ describe('Input', () => {
 
     const inputElement = screen.getByPlaceholderText(placeholderText)
 
-    expect(inputElement).not.toHaveClass('pl-9')
+    expect(inputElement).not.toHaveClass('pl-10')
 
     const iconElement = screen.queryByRole('img', { hidden: true })
     expect(iconElement).not.toBeInTheDocument()

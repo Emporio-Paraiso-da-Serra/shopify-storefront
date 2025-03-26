@@ -10,7 +10,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> &
   }
 
 const inputVariants = cva(
-  'focus h-9 w-full rounded-md border bg-transparent px-2 pb-[1px] text-sm leading-none disabled:cursor-not-allowed disabled:opacity-50',
+  'focus h-10 w-full rounded-md border bg-transparent px-2 pb-[1px] text-sm leading-none disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
@@ -34,10 +34,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     if (Icon) {
       return (
         <div className='focus relative flex w-full items-center [&>svg]:size-5'>
-          <input ref={ref} type={type} className={cn(inputVariants({ variant, className }), 'pl-9')} {...props} />
+          <input ref={ref} type={type} className={cn(inputVariants({ variant, className }), 'pl-10')} {...props} />
           <Icon
-            strokeWidth={1.5}
-            className={cn('pointer-events-none absolute left-2', iconColors[variant ?? 'default'])}
+            className={cn('pointer-events-none absolute left-2.5', iconColors[variant ?? 'default'])}
             data-testid='input-icon'
           />
         </div>
