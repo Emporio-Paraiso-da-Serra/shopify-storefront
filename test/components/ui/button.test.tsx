@@ -39,6 +39,18 @@ describe('Button', () => {
     expect(buttonElement).toHaveClass('text-foreground')
   })
 
+  it('should render the ghost variant', () => {
+    const buttonText = 'Ghost Button'
+    render(<Button variant='ghost'>{buttonText}</Button>)
+
+    const buttonElement = screen.getByRole('button', { name: buttonText })
+
+    expect(buttonElement).toHaveClass('bg-transparent')
+    expect(buttonElement).toHaveClass('text-foreground')
+    expect(buttonElement).toHaveClass('hover:bg-accent')
+    expect(buttonElement).toHaveClass('hover:text-accent-foreground')
+  })
+
   it('should render the small size', () => {
     const buttonText = 'Small Button'
     render(<Button size='sm'>{buttonText}</Button>)
