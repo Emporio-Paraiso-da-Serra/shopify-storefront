@@ -3,7 +3,7 @@ import type { HeaderQuery } from 'storefrontapi.generated'
 
 type HeaderType = HeaderQuery
 
-export type HeaderMenuType = HeaderType['menu']
+type HeaderMenuType = HeaderType['menu']
 
 export type HeaderMenuItemType = {
   id: string
@@ -14,4 +14,5 @@ export type HeaderMenuItemType = {
 
 export interface HeaderProps {
   header: HeaderType
+  isLoggedIn: Promise<boolean>
 }

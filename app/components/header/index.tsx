@@ -4,9 +4,10 @@ import { Search } from 'lucide-react'
 import { Input } from '~/components/ui/input'
 import type { HeaderProps } from '~/types/header'
 
+import { HeaderAccount } from './header.account'
 import { HeaderMenu } from './header.menu'
 
-export function Header({ header }: Readonly<HeaderProps>) {
+export function Header({ header, isLoggedIn }: Readonly<HeaderProps>) {
   const { shop, menu } = header
 
   return (
@@ -17,6 +18,8 @@ export function Header({ header }: Readonly<HeaderProps>) {
         </NavLink>
 
         <Input icon={Search} placeholder='Qual móvel você procura?' data-test-id='header-search-input' />
+
+        <HeaderAccount isLoggedIn={isLoggedIn} />
       </div>
 
       <HeaderMenu menu={menu} />
