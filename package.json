@@ -39,6 +39,7 @@
     "@graphql-codegen/cli": "5.0.2",
     "@radix-ui/react-slot": "1.1.2",
     "@remix-run/dev": "^2.15.3",
+    "@remix-run/testing": "2.16.2",
     "@shopify/cli": "~3.75.3",
     "@shopify/hydrogen-codegen": "^0.3.2",
     "@shopify/mini-oxygen": "^3.1.1",

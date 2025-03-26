@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react'
+import { createRemixStub } from '@remix-run/testing'
+import { act, render, screen } from '@testing-library/react'
 import type { HeaderQuery } from 'storefrontapi.generated'
 
 import { HeaderMenu } from '~/components/header/header.menu'
@@ -30,8 +31,14 @@ describe('HeaderMenu', () => {
     items: [],
   }
 
-  it('should render menu items when provided', () => {
-    render(<HeaderMenu menu={mockMenu} />)
+  it('should render menu items when provided', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <HeaderMenu menu={mockMenu} />,
+      },
+    ])
+    await act(async () => render(<RemixStub />))
 
     const menu = screen.queryByTestId(menuId)
     expect(menu).toBeInTheDocument()
@@ -41,15 +48,27 @@ describe('HeaderMenu', () => {
     expect(menuItems[0]).toHaveTextContent(mockMenu.items[0].title)
   })
 
-  it('should not render when items are empty', () => {
-    render(<HeaderMenu menu={mockMenuWithoutItems} />)
+  it('should not render when items are empty', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <HeaderMenu menu={mockMenuWithoutItems} />,
+      },
+    ])
+    await act(async () => render(<RemixStub />))
 
     const menu = screen.queryByTestId(menuId)
     expect(menu).not.toBeInTheDocument()
   })
 
-  it('should not render when menu is undefined', () => {
-    render(<HeaderMenu menu={undefined} />)
+  it('should not render when menu is undefined', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        Component: () => <HeaderMenu menu={undefined} />,
+      },
+    ])
+    await act(async () => render(<RemixStub />))
 
     const menu = screen.queryByTestId(menuId)
     expect(menu).not.toBeInTheDocument()
